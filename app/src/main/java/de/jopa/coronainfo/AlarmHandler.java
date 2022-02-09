@@ -14,7 +14,7 @@ public class AlarmHandler {
 
     public void setAlarmManager() {
         Intent intent = new Intent(context, CoronaDataUpdateService.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 2, intent, 0);
+        PendingIntent sender = PendingIntent.getBroadcast(context, 2, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         long triggerAfter = 0;
@@ -24,7 +24,7 @@ public class AlarmHandler {
 
     public void cancelAlarmManager() {
         Intent intent = new Intent(context, CoronaDataUpdateService.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 2, intent, 0);
+        PendingIntent sender = PendingIntent.getBroadcast(context, 2, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(sender);
     }
