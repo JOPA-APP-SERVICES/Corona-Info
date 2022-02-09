@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Corona Info</string>
+    <string name="vacCardWidgetDescription">Vaccination card</string>
+    <string name="pathToVacCard">Path to the vaccination card</string>
+    <string name="save">Save</string>
+    <string name="regionSelect">Please select a region.</string>
+    <string name="coronaDataWidgetDescription">Corona data</string>
+    <string name="noRegionFound">No region found</string>
+    <string name="canNotLoadCData">The corona data could not be loaded.</string>
+    <string name="Cd.7day">"7-day incidence: "</string>
+    <string name="Cd.NewCases">"New cases: "</string>
+    <string name="Cd.NewDeaths">"New deaths: "</string>
+    <string name="Cd.Cases">"Cases: "</string>
+    <string name="Cd.Deaths">"Deaths: "</string>
+    <string name="noApp">You do not have an app like the Covpass, the Coronawarn or the luca app installed.</string>
+    <string name="about">About</string>
+    <string name="licences">Open source licences</string>
+    <string name="alertDialogCancel">Cancel</string>
+    <string name="aboutText">QR-Code Scanner © by JOPA APP-SERVICES, 2022.</string>
+</resources>

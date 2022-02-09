@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Corona Info</string>
+    <string name="vacCardWidgetDescription">Impfkarte</string>
+    <string name="pathToVacCard">Pfad zur Impfkarte</string>
+    <string name="save">Speichern</string>
+    <string name="regionSelect">Bitte wählen sie eine Region aus.</string>
+    <string name="coronaDataWidgetDescription">Corona Zahlen</string>
+    <string name="noRegionFound">Keine Region gefunden</string>
+    <string name="canNotLoadCData">Die Coronadaten konnten nicht geladen werden.</string>
+    <string name="Cd.7day">"7-Tage-Inzidenz: "</string>
+    <string name="Cd.NewCases">"Neue Fälle: "</string>
+    <string name="Cd.NewDeaths">"Neue Todesfälle: "</string>
+    <string name="Cd.Cases">"Fälle: "</string>
+    <string name="Cd.Deaths">"Todesfälle: "</string>
+    <string name="noApp">Sie haben keine App wie die Covpass, die Coronawarn oder die luca App installiert.</string>
+    <string name="about">Über uns</string>
+    <string name="licences">Open-Source Lizenzen</string>
+    <string name="alertDialogCancel">Abbrechen</string>
+    <string name="aboutText">QR-Code Scanner © by JOPA APP-SERVICES, 2022.</string>
+</resources>
