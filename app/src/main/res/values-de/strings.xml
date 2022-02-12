@@ -18,4 +18,5 @@
     <string name="licences">Open-Source Lizenzen</string>
     <string name="alertDialogCancel">Abbrechen</string>
     <string name="aboutText">QR-Code Scanner © by JOPA APP-SERVICES, 2022.</string>
+    <string name="noCoronaApp">Sie haben keine Corona App wie CovPass, CoronaWarn, luca oder GreenPass EU installiert.</string>
 </resources>
