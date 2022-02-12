@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -12,19 +13,27 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.splashscreen.SplashScreen;
+
+import com.github.kaiwinter.androidremotenotifications.RemoteNotifications;
+import com.github.kaiwinter.androidremotenotifications.model.UpdatePolicy;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_main);
+        try {
+            RemoteNotifications.start(MainActivity.this, new URL("https://jopaapi.web.app/coronainfo/notifications.json"), UpdatePolicy.NOW);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         CoronaData cD = new CoronaData(MainActivity.this);
         ArrayList<String> admUnitNames = new ArrayList<>(cD.getAdmUnitNames());
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.licences:
                 builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage("OkHttp3 - Square\n" +
-                        "org.json - JSON\ngson - Google").setTitle(R.string.app_name);
+                        "org.json - JSON\ngson - Google\nandroid-remote-notifications - kaiwinter").setTitle(R.string.app_name);
                 builder.setNegativeButton(R.string.alertDialogCancel, (dialog12, id12) -> dialog12.cancel());
                 dialog = builder.create();
                 dialog.show();

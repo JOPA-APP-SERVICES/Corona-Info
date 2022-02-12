@@ -3,6 +3,8 @@ package de.jopa.coronainfo;
 import android.Manifest;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -109,6 +112,43 @@ public class VaccinationCardWidgetConfigureActivity extends Activity {
     public void grantStoragePermission() {
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+    static void openCoronaApp(Context context) {
+        context.getApplicationContext();
+        try {
+            Intent covpass = new Intent("android.intent.action.MAIN");
+            covpass.setComponent(new ComponentName(
+                    "de.rki.covpass.app",  //This is the package name of another application
+                    "de.rki.covpass.app.main.MainActivity"));
+            context.startActivity(covpass);
+        } catch (ActivityNotFoundException e) {
+            try {
+                Intent coronaWarn = new Intent("android.intent.action.MAIN");
+                coronaWarn.setComponent(new ComponentName(
+                        "de.rki.coronawarnapp",  //This is the package name of another application
+                        "de.rki.coronawarnapp.ui.launcher.LauncherActivity"));
+                context.startActivity(coronaWarn);
+            } catch (ActivityNotFoundException e2) {
+                try {
+                    Intent luca = new Intent("android.intent.action.MAIN");
+                    luca.setComponent(new ComponentName(
+                            "de.culture4life.luca",  //This is the package name of another application
+                            "de.culture4life.luca.ui.splash.SplashActivity"));
+                    context.startActivity(luca);
+                } catch (ActivityNotFoundException e3) {
+                    try {
+                        Intent greenPass = new Intent("android.intent.action.MAIN");
+                        greenPass.setComponent(new ComponentName(
+                                "eu.greenpassapp.greenpassrk",  //This is the package name of another application
+                                "eu.greenpassapp.greenpassrk.MainActivity"));
+                        context.startActivity(greenPass);
+                    } catch (ActivityNotFoundException e4) {
+                        Toast.makeText(context, R.string.noCoronaApp, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         }
     }
 }
