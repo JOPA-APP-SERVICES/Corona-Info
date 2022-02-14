@@ -118,6 +118,7 @@ public class CoronaData{
         } catch (FileNotFoundException e) {
             CoronaData cD = new CoronaData(context);
             cD.loadData();
+            fis = context.openFileInput(admUnitd + ".json");
         }
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);

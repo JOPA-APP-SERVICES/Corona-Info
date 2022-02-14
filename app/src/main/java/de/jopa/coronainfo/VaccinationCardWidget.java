@@ -3,15 +3,11 @@ package de.jopa.coronainfo;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 /**
  * Implementation of App Widget functionality.
@@ -37,7 +33,7 @@ public class VaccinationCardWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vaccination_card_widget);
-            views.setOnClickPendingIntent(R.id.imageView, getPendingSelfIntent(context, "openCoronaApp"));
+            views.setOnClickPendingIntent(R.id.imageView, getPendingSelfIntent(context));
         }
     }
 
@@ -59,9 +55,9 @@ public class VaccinationCardWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    protected PendingIntent getPendingSelfIntent(Context context, String action) {
+    protected PendingIntent getPendingSelfIntent(Context context) {
         Intent intent = new Intent(context, getClass());
-        intent.setAction(action);
+        intent.setAction("openCoronaApp");
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
@@ -71,5 +67,5 @@ public class VaccinationCardWidget extends AppWidgetProvider {
             // your onClick action is here
             Log.i("openCoronaApp", "Hi");
         }
-    };
+    }
 }
