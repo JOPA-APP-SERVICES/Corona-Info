@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(MainActivity.this);
                 ComponentName widget = new ComponentName(MainActivity.this, VaccinationCardWidget.class);
-                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.imageView);
+                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(widget);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.imageView);
 
                 NotificationManager notificationManager1 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager1.cancel(1);

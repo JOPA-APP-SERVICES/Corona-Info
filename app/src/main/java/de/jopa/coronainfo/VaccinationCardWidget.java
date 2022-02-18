@@ -41,8 +41,6 @@ public class VaccinationCardWidget extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vaccination_card_widget);
-            views.setOnClickPendingIntent(R.id.imageView, getPendingSelfIntent(context));
         }
     }
 
