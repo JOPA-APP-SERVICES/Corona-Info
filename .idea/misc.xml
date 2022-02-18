@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/pasca/AndroidStudioProjects/Corona-Info/app/src/main/res/layout/activity_splashscreen.xml" value="0.2453125" />
+        <entry key="..\:/Users/pasca/AndroidStudioProjects/Corona-Info/app/src/main/res/layout/corona_data_widget_configure.xml" value="0.259375" />
+        <entry key="..\:/Users/pasca/AndroidStudioProjects/Corona-Info/app/src/main/res/layout/vaccination_card_widget.xml" value="0.259375" />
+        <entry key="..\:/Users/pasca/AndroidStudioProjects/Corona-Info/app/src/main/res/layout/vaccination_card_widget_configure.xml" value="0.259375" />
       </map>
     </option>
   </component>

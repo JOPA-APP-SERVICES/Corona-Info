@@ -1,24 +1,26 @@
 package de.jopa.coronainfo;
 
+import android.app.NotificationManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.github.kaiwinter.androidremotenotifications.RemoteNotifications;
 import com.github.kaiwinter.androidremotenotifications.model.UpdatePolicy;
-
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,6 +31,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            if ("/coronainfo/addVaccinationCard".equals(getIntent().getData().getPath())) {
+                int appWidgetId = Integer.parseInt(getIntent().getData().getQueryParameter("appWidgetId"));
+                String svg = getIntent().getData().getQueryParameter("svg");
+                VaccinationCardWidgetConfigureActivity.savePath(MainActivity.this, appWidgetId, svg);
+
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(MainActivity.this);
+                ComponentName widget = new ComponentName(MainActivity.this, VaccinationCardWidget.class);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.imageView);
+
+                NotificationManager notificationManager1 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager1.cancel(1);
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "1")
+                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setContentTitle("Corona Info Impfkartenwidget einrichten")
+                        .setContentText("Die Einrichtung ihres Impfkartenwidgets ist abgeschlossen.")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+                // notificationId is a unique int for each notification that you must define
+                notificationManager.notify(2, builder.build());
+            }
+        } catch (NullPointerException e) {
+            //pass
+        }
+
         try {
             RemoteNotifications.start(MainActivity.this, new URL("https://jopaapi.web.app/coronainfo/notifications.json"), UpdatePolicy.NOW);
         } catch (MalformedURLException e) {

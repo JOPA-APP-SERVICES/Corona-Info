@@ -35,7 +35,6 @@ import okhttp3.Response;
 
 public class CoronaData{
     public Context context;
-    public JSONObject coronaData = new JSONObject();
 
     public CoronaData(Context context) {
         this.context = context;
@@ -100,7 +99,6 @@ public class CoronaData{
         });
     }
     public void loadData() {
-        coronaData = new JSONObject();
         ArrayList<String> admUnitNames = new ArrayList<>(this.getAdmUnitNames());
         for (String admUnitName: admUnitNames) {
             try {
@@ -112,7 +110,7 @@ public class CoronaData{
     }
 
     public String[] getDataForAdmUnitId(String admUnitd) throws IOException, JSONException {
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             fis = context.openFileInput(admUnitd + ".json");
         } catch (FileNotFoundException e) {

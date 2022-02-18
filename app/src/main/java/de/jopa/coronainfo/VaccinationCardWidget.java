@@ -5,9 +5,16 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Picture;
+import android.graphics.drawable.PictureDrawable;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.pixplicity.sharp.Sharp;
+import com.pixplicity.sharp.SharpPicture;
 
 /**
  * Implementation of App Widget functionality.
@@ -21,7 +28,9 @@ public class VaccinationCardWidget extends AppWidgetProvider {
         String path = VaccinationCardWidgetConfigureActivity.loadPath(context, appWidgetId);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vaccination_card_widget);
-        views.setImageViewUri(R.id.imageView, Uri.parse(path));
+        //views.setImageViewUri(R.id.imageView, Uri.parse(path));
+        Picture picture = Sharp.loadString(path).getSharpPicture().getPicture();
+        views.setImageViewBitmap(R.id.imageView, pictureDrawable2Bitmap(picture));
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -67,5 +76,13 @@ public class VaccinationCardWidget extends AppWidgetProvider {
             // your onClick action is here
             Log.i("openCoronaApp", "Hi");
         }
+    }
+
+    private static Bitmap pictureDrawable2Bitmap(Picture picture) {
+        PictureDrawable pd = new PictureDrawable(picture);
+        Bitmap bitmap = Bitmap.createBitmap(pd.getIntrinsicWidth(), pd.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawPicture(pd.getPicture());
+        return bitmap;
     }
 }
