@@ -9,17 +9,20 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import de.jopa.coronainfo.databinding.VaccinationCardWidgetConfigureBinding;
 
 /**
@@ -27,8 +30,6 @@ import de.jopa.coronainfo.databinding.VaccinationCardWidgetConfigureBinding;
  */
 public class VaccinationCardWidgetConfigureActivity extends Activity {
 
-    private static final String PREFS_NAME = "de.jopa.coronainfo.VaccinationCardWidget";
-    private static final String PREF_PREFIX_KEY = "widget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     final Context context = VaccinationCardWidgetConfigureActivity.this;
     View.OnClickListener mOnClickListener = v -> {
@@ -51,31 +52,6 @@ public class VaccinationCardWidgetConfigureActivity extends Activity {
 
     public VaccinationCardWidgetConfigureActivity() {
         super();
-    }
-
-    // Write the prefix to the SharedPreferences object for this widget
-    static void savePath(Context context, int appWidgetId, String path) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putString(PREF_PREFIX_KEY + appWidgetId, path);
-        prefs.apply();
-    }
-
-    // Read the prefix from the SharedPreferences object for this widget.
-    // If there is no preference saved, get the default from a resource
-    static String loadPath(Context context, int appWidgetId) {
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        String path = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
-        if (path != null) {
-            return path;
-        } else {
-            return "";
-        }
-    }
-
-    static void deletePath(Context context, int appWidgetId) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.remove(PREF_PREFIX_KEY + appWidgetId);
-        prefs.apply();
     }
 
     @Override
@@ -105,82 +81,84 @@ public class VaccinationCardWidgetConfigureActivity extends Activity {
         }
     }
 
-    static void openCoronaApp(Context context) {
-        context.getApplicationContext();
-        try {
-            Intent covpass = new Intent("android.intent.action.MAIN");
-            covpass.setComponent(new ComponentName(
-                    "de.rki.covpass.app",  //This is the package name of another application
-                    "de.rki.covpass.app.main.MainActivity"));
-            context.startActivity(covpass);
-        } catch (ActivityNotFoundException e) {
+    static PendingIntent openCoronaApp(Context context) {
+        PendingIntent pendingIntent;
+
+        ArrayList<List<String>> apps = new ArrayList<>();
+        apps.add(Arrays.asList("de.rki.covpass.app", "de.rki.covpass.app.main.MainActivity"));
+        apps.add(Arrays.asList("de.rki.coronawarnapp", "de.rki.coronawarnapp.ui.main.MainActivity"));
+        apps.add(Arrays.asList("de.culture4life.luca", "de.culture4life.luca.ui.MainActivity"));
+        apps.add(Arrays.asList("eu.greenpassapp.greenpassrk", "eu.greenpassapp.greenpassrk.MainActivity"));
+        apps.add(Arrays.asList("fr.gouv.android.stopcovid", "fr.gouv.android.stopcovid.MainActivity"));
+
+        for (List app : apps) {
             try {
-                Intent coronaWarn = new Intent("android.intent.action.MAIN");
-                coronaWarn.setComponent(new ComponentName(
-                        "de.rki.coronawarnapp",  //This is the package name of another application
-                        "de.rki.coronawarnapp.ui.launcher.LauncherActivity"));
-                context.startActivity(coronaWarn);
-            } catch (ActivityNotFoundException e2) {
-                try {
-                    Intent luca = new Intent("android.intent.action.MAIN");
-                    luca.setComponent(new ComponentName(
-                            "de.culture4life.luca",  //This is the package name of another application
-                            "de.culture4life.luca.ui.splash.SplashActivity"));
-                    context.startActivity(luca);
-                } catch (ActivityNotFoundException e3) {
-                    try {
-                        Intent greenPass = new Intent("android.intent.action.MAIN");
-                        greenPass.setComponent(new ComponentName(
-                                "eu.greenpassapp.greenpassrk",  //This is the package name of another application
-                                "eu.greenpassapp.greenpassrk.MainActivity"));
-                        context.startActivity(greenPass);
-                    } catch (ActivityNotFoundException e4) {
-                        Toast.makeText(context, R.string.noCoronaApp, Toast.LENGTH_SHORT).show();
-                    }
-                }
+                Intent intent = new Intent("android.intent.action.MAIN");
+                intent.setComponent(new ComponentName(app.get(0).toString(), app.get(1).toString()));
+                pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+                return pendingIntent;
+            } catch (ActivityNotFoundException e) {
+                //pass
             }
         }
+
+        Toast.makeText(context, R.string.noCoronaApp, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent("android.intent.action.MAIN");
+        intent.setComponent(new ComponentName("de.jopa.coronainfo", "de.jopa.coronainfo.MainActivity"));
+        pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        return pendingIntent;
     }
 
     private void generateVacCard() throws IOException {
-        String lang = Locale.getDefault().getLanguage();
+        String lang = getResources().getConfiguration().locale.getLanguage();
+        File dir = new File(Environment.getExternalStorageDirectory() + "/.CoronaInfo/VaccinationCards/");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
 
-        InputStream stream = context.getAssets().open("VaccinationCards/" + lang + ".svg");
-        int size = stream.available();
-        byte[] buffer = new byte[size];
-        stream.read(buffer);
-        stream.close();
-        String svg = new String(buffer);
+        File file = new File(Environment.getExternalStorageDirectory() + "/.CoronaInfo/VaccinationCards", mAppWidgetId + ".png");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
 
-        savePath(context, mAppWidgetId, svg);
+            try{
+                java.io.InputStream asset = getAssets().open("VaccinationCards/" + lang + ".png");
+                java.io.FileOutputStream output = new java.io.FileOutputStream(file);
+                final byte[] buffer = new byte[asset.available()];
+                int size;
+                while ((size = asset.read(buffer)) != -1) {
+                    output.write(buffer, 0, size);
+                }
+                asset.close();
+                output.close();
+            } catch (java.io.IOException e){
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
         Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://jopaapps.web.app/apps/impfkartengenerator?appWidgetId=" + mAppWidgetId));
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
-        createNotificationChannel("Vaccinationcard setup", "");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1")
+        createNotificationChannel(getString(R.string.notificationChannelTitle), "");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "vacCardSetup")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Corona Info Impfkartenwidget einrichten")
-                .setContentText("Bitte klicken sie hier, um ihr Impfkartenwidget einzurichten")
+                .setContentTitle(getString(R.string.vaccinationCardSetupNotificationTitle))
+                .setContentText(getString(R.string.vaccinationCardSetupNotificationBodyStartShort))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.vaccinationCardSetupNotificationBodyStart)))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(contentIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-// notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, builder.build());
     }
 
     private void createNotificationChannel(String name, String description) {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("vacCardSetup", name, importance);
+            NotificationChannel channel = new NotificationChannel("cardSetup", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }

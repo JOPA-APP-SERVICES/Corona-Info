@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Corona Info</string>
-    <string name="vacCardWidgetDescription">Impfkarte</string>
+    <string name="vacCardWidgetDescription">Impf-&amp; Genesenenkarte</string>
     <string name="pathToVacCard">Pfad zur Impfkarte</string>
-    <string name="save">Speichern</string>
+    <string name="ok">OK</string>
     <string name="regionSelect">Bitte wählen sie eine Region aus.</string>
     <string name="coronaDataWidgetDescription">Corona Zahlen</string>
     <string name="noRegionFound">Keine Region gefunden</string>
@@ -18,5 +18,11 @@
     <string name="licences">Open-Source Lizenzen</string>
     <string name="alertDialogCancel">Abbrechen</string>
     <string name="aboutText">QR-Code Scanner © by JOPA APP-SERVICES, 2022.</string>
-    <string name="noCoronaApp">Sie haben keine Corona App wie CovPass, CoronaWarn, luca oder GreenPass EU installiert.</string>
+    <string name="noCoronaApp">Sie haben keine Corona App wie CovPass, Corona-Warn, luca, GreenPass EU oder AntiCovid installiert.</string>
+    <string name="vaccinationCardSetupNotificationTitle">" Impf-&amp; Genesenenkartenwidget einrichten"</string>
+    <string name="vaccinationCardSetupNotificationBodyStart">Bitte klicken sie hier, um ihr Impf-&amp; Genesenenkartenwidget einzurichten</string>
+    <string name="vaccinationCardSetupNotificationBodySuccess">Die Einrichtung ihres Impf-&amp; Genesenenkartenwidgets ist abgeschlossen.</string>
+    <string name="notificationChannelTitle">Impf-&amp; Genesenenkartenwidget einrichten</string>
+    <string name="vaccinationCardSetupNotificationBodyStartShort">Bitte klicken sie hier, ...</string>
+    <string name="vaccinationCardSetupNotificationBodySuccessShort">Die Einrichtung ...</string>
 </resources>

@@ -34,9 +34,6 @@ public class CoronaDataUpdateService extends BroadcastReceiver {
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm.getActiveNetwork().toString() == null) {
-            return false;
-        }
-        return true;
+        return cm.getActiveNetwork() != null;
     }
 }

@@ -1,18 +1,14 @@
 package de.jopa.coronainfo;
 
 import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
-
 import androidx.annotation.NonNull;
-
 import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -46,7 +41,7 @@ public class CoronaData{
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/rki_key_data_v/FeatureServer/0/query")).newBuilder();
-        urlBuilder.addQueryParameter("user-agent", "Corona-Info/JOPA/1.0");
+        urlBuilder.addQueryParameter("user-agent", "Corona-Info/JOPA/" + BuildConfig.VERSION_NAME);
         urlBuilder.addQueryParameter("where", "AdmUnitId=" + admUnitId);
         urlBuilder.addQueryParameter("outFields", "Inz7T, AnzFallNeu, AnzTodesfallNeu, AnzFall, AnzTodesfall");
         urlBuilder.addQueryParameter("f", "json");
@@ -99,14 +94,47 @@ public class CoronaData{
         });
     }
     public void loadData() {
-        ArrayList<String> admUnitNames = new ArrayList<>(this.getAdmUnitNames());
-        for (String admUnitName: admUnitNames) {
-            try {
-                loadDataForAdmUnitId(getAdmUnitId(admUnitName));
-            } catch (IOException e) {
+        SharedPreferences prefs = context.getSharedPreferences("de.jopa.coronainfo.CoronaData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        long timestamp = prefs.getLong("TimestampOfLastLoadedData", 0);
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/rki_service_status_v/FeatureServer/0/query?where=1%3D1&outFields=Timestamp&f=json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
             }
-        }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String resp = response.body().string();
+                    JSONObject data;
+                    try {
+                        data = new JSONObject(resp);
+                        long loadedTimestamp = (long) new JSONObject(new JSONObject(new JSONArray(data.get("features").toString()).get(0).toString()).get("attributes").toString()).get("Timestamp");
+                        if (loadedTimestamp > timestamp) {
+                            ArrayList<String> admUnitNames = new ArrayList<>(getAdmUnitNames());
+                            for (String admUnitName : admUnitNames) {
+                                try {
+                                    loadDataForAdmUnitId(getAdmUnitId(admUnitName));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            editor.putLong("TimestampOfLastLoadedData", loadedTimestamp).apply();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     public String[] getDataForAdmUnitId(String admUnitd) throws IOException, JSONException {

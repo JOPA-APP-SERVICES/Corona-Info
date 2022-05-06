@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Corona Info</string>
-    <string name="vacCardWidgetDescription">Vaccination card</string>
+    <string name="vacCardWidgetDescription">Vaccination &amp; Recovery card</string>
     <string name="pathToVacCard">Path to the vaccination card</string>
-    <string name="save">Save</string>
+    <string name="ok">OK</string>
     <string name="regionSelect">Please select a region.</string>
     <string name="coronaDataWidgetDescription">Corona data</string>
     <string name="noRegionFound">No region found</string>
@@ -17,5 +17,11 @@
     <string name="licences">Open source licences</string>
     <string name="alertDialogCancel">Cancel</string>
     <string name="aboutText">QR-Code Scanner © by JOPA APP-SERVICES, 2022.</string>
-    <string name="noCoronaApp">You do not have a Corona app such as CovPass, CoronaWarn, luca or GreenPass EU installed.</string>
+    <string name="noCoronaApp">You do not have a Corona app such as CovPass, Corona-Warn, luca, GreenPass EU or AntiCovid installed.</string>
+    <string name="vaccinationCardSetupNotificationTitle">Vaccination &amp; Recovery card widget setup</string>
+    <string name="vaccinationCardSetupNotificationBodyStart">Please click here to set up your vaccination and recovery card widget.</string>
+    <string name="vaccinationCardSetupNotificationBodySuccess">The setup of your vaccination &amp; recovery card widget is complete.</string>
+    <string name="notificationChannelTitle"> Setup Vaccination &amp; Recovery card widget</string>
+    <string name="vaccinationCardSetupNotificationBodyStartShort">Please click here, ...</string>
+    <string name="vaccinationCardSetupNotificationBodySuccessShort">The setup ...</string>
 </resources>
