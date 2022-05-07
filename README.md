@@ -83,9 +83,9 @@ limitations under the License.
 
 ## Änderungen:
 - 1.1
-    - Imfkarten können hinzugefügt werden
+    - Impf-& Genesenenkarten können hinzugefügt werden
 - 1.2
-    - Corona-Daten-API-Nutzung verbessert#
+    - Corona-Daten-API-Nutzung verbessert
 - 1.3
     - Impf-& Genesenenkarten können nun einfach hinzugefügt werden
     - API-Bugfixes
