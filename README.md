@@ -2,7 +2,8 @@
 ...ist eine App, mit der Sie immer die aktuellen Corona Zahlen für ganz Deutschland auch ohne permanente Internetverbindung über Widgets abrufen können sowie [Impf-& Genesenenkarten](https://jopaapps.web.app/apps/impfkartengenerator.html) per Widget direkt auf ihrem Startbildschirm positionieren können.
 
 
-Die von uns verwendete Bibliothek android-remote-notifications von kaiwinter steht unter folgender Lizenz:
+Bibliotheken:
+- android-remote-notifications:
 ```
 Copyright 2018 Kai Winter
  
@@ -18,3 +19,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+- Gson
