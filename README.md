@@ -79,3 +79,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+
+##Änderungen:
+- 1.1
+* Imfkarten können hinzugefügt werden
+- 1.2
+* Corona-Daten-API-Nutzung verbessert#
+- 1.3
+* Impf-& Genesenenkarten können nun einfach hinzugefügt werden
+* API-Bugfixes
