@@ -18,7 +18,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import okhttp3.Call;
@@ -117,7 +119,14 @@ public class CoronaData{
                     JSONObject data;
                     try {
                         data = new JSONObject(resp);
-                        long loadedTimestamp = (long) new JSONObject(new JSONObject(new JSONArray(data.get("features").toString()).get(0).toString()).get("attributes").toString()).get("Timestamp");
+                        List<Long> timestamps = new ArrayList<>();
+                        JSONArray jsonTimestamps = new JSONArray(data.get("features").toString());
+
+                        for (int i = 0; i < jsonTimestamps.length(); i++) {
+                            timestamps.add((Long) new JSONObject(jsonTimestamps.getJSONObject(i).get("attributes").toString()).get("Timestamp"));
+                        }
+                        long loadedTimestamp = Collections.max(timestamps);
+
                         if (loadedTimestamp > timestamp) {
                             ArrayList<String> admUnitNames = new ArrayList<>(getAdmUnitNames());
                             for (String admUnitName : admUnitNames) {

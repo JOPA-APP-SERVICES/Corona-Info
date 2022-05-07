@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.widget.RemoteViews;
+import java.io.File;
 
 /**
  * Implementation of App Widget functionality.
@@ -42,7 +43,8 @@ public class VaccinationCardWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
-        //Delete image
+        File card = new File("storage/emulated/0/.CoronaInfo/VaccinationCards", appWidgetIds[0] + ".png");
+        card.delete();
     }
 
     @Override

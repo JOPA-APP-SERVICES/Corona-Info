@@ -23,6 +23,8 @@
     <string name="vaccinationCardSetupNotificationBodyStart">Bitte klicken sie hier, um ihr Impf-&amp; Genesenenkartenwidget einzurichten</string>
     <string name="vaccinationCardSetupNotificationBodySuccess">Die Einrichtung ihres Impf-&amp; Genesenenkartenwidgets ist abgeschlossen.</string>
     <string name="notificationChannelTitle">Impf-&amp; Genesenenkartenwidget einrichten</string>
-    <string name="vaccinationCardSetupNotificationBodyStartShort">Bitte klicken sie hier, ...</string>
-    <string name="vaccinationCardSetupNotificationBodySuccessShort">Die Einrichtung ...</string>
+    <string name="vaccinationCardSetupNotificationBodyStartShort">Bitte klicken sie hier, …</string>
+    <string name="vaccinationCardSetupNotificationBodySuccessShort">Die Einrichtung …</string>
+    <string name="openSource">Open Source</string>
+    <string name="openSourceText">Diese App ist Open Source. Der Quellcode ist \u003Ca href=\"https://github.com/JOPA-APP-SERVICES/Corona-Info\"\u003Ehier\u003C/a\u003E verfügbar.</string>
 </resources>

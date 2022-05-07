@@ -9,6 +9,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, R.string.canNotLoadCData, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 Log.i("JSONExc", e.toString());
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -161,18 +164,29 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         AlertDialog.Builder builder;
         AlertDialog dialog;
-        if (id == R.id.licences) {
+        if (id == R.id.about) {
             builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("OkHttp3 - Square\n" +
-                    "org.json - JSON\ngson - Google\nandroid-remote-notifications - kaiwinter").setTitle(R.string.app_name);
-            builder.setNegativeButton(R.string.alertDialogCancel, (dialog12, id12) -> dialog12.cancel());
+            builder.setTitle(R.string.app_name).setMessage(R.string.aboutText);
+            builder.setNegativeButton(R.string.alertDialogCancel, null);
             dialog = builder.create();
             dialog.show();
             return true;
-        } else if (id == R.id.about) {
+        } else if (id == R.id.opensource) {
             builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage(R.string.aboutText).setTitle(R.string.app_name);
-            builder.setNegativeButton(R.string.alertDialogCancel, (dialog1, id1) -> dialog1.cancel());
+            builder.setTitle(R.string.app_name);
+            builder.setMessage(Html.fromHtml(getString(R.string.openSourceText)));
+            builder.setNegativeButton(R.string.alertDialogCancel, null);
+            dialog = builder.create();
+            dialog.show();
+
+            ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
+            return true;
+        } else if (id == R.id.licences) {
+            builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(R.string.app_name).setMessage("OkHttp3 - Square\n" +
+                    "org.json - JSON\ngson - Google\nandroid-remote-notifications - kaiwinter");
+            builder.setNegativeButton(R.string.alertDialogCancel, null);
             dialog = builder.create();
             dialog.show();
             return true;

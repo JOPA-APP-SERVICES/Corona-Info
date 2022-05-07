@@ -22,6 +22,8 @@
     <string name="vaccinationCardSetupNotificationBodyStart">Please click here to set up your vaccination and recovery card widget.</string>
     <string name="vaccinationCardSetupNotificationBodySuccess">The setup of your vaccination &amp; recovery card widget is complete.</string>
     <string name="notificationChannelTitle"> Setup Vaccination &amp; Recovery card widget</string>
-    <string name="vaccinationCardSetupNotificationBodyStartShort">Please click here, ...</string>
-    <string name="vaccinationCardSetupNotificationBodySuccessShort">The setup ...</string>
+    <string name="vaccinationCardSetupNotificationBodyStartShort">Please click here, …</string>
+    <string name="vaccinationCardSetupNotificationBodySuccessShort">The setup …</string>
+    <string name="openSource">Open source</string>
+    <string name="openSourceText">This app is open source. The source code is available \u003Ca href=\"https://github.com/JOPA-APP-SERVICES/Corona-Info\"\u003Ehere\u003C/a\u003E.</string>
 </resources>
