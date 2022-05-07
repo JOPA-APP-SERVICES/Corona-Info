@@ -89,3 +89,12 @@ limitations under the License.
 - 1.3
     - Impf-& Genesenenkarten können nun einfach hinzugefügt werden
     - API-Bugfixes
+
+## Changes:
+- 1.1
+    - Vaccination & recovery cards can be added
+- 1.2
+    - Corona data API usage improved
+- 1.3
+    - Vaccination & recovery cards can now be added easily
+    - API bug fixes
