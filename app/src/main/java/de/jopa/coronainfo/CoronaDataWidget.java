@@ -46,9 +46,7 @@ public class CoronaDataWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
-        for (int appWidgetId : appWidgetIds) {
-            CoronaDataWidgetConfigureActivity.deleteAdmUnitId(context, appWidgetId);
-        }
+        CoronaDataWidgetConfigureActivity.deleteAdmUnitId(context, appWidgetIds[0]);
     }
 
     @Override

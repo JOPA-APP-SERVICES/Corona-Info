@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         CoronaData cD = new CoronaData(MainActivity.this);
-        cD.loadData();
         ArrayList<String> admUnitNames = new ArrayList<>(cD.getAdmUnitNames());
 
         AlarmHandler alarmHandler = new AlarmHandler(MainActivity.this);
