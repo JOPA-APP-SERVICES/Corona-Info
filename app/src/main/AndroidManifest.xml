@@ -5,30 +5,34 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoronaInfo"
         tools:targetApi="s">
         <activity
-            android:name=".Splashscreen"
-            android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Intro"
+            android:exported="false" />
+
 
         <receiver
             android:name=".CoronaDataWidget"
@@ -42,7 +46,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/corona_data_widget_info" />
         </receiver>
-
         <activity
             android:name=".CoronaDataWidgetConfigureActivity"
             android:exported="true">
@@ -63,16 +66,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/vaccination_card_widget_info" />
         </receiver>
-
-        <receiver android:name=".CoronaDataUpdateOnBoot"
-            android:exported="true"
-            android:directBootAware="true"
-            tools:targetApi="n">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".VaccinationCardWidgetConfigureActivity"
             android:exported="true">
@@ -80,28 +73,15 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
+
+        <receiver
+            android:name=".CoronaDataUpdateOnBoot"
+            android:directBootAware="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="jopaapi.web.app"
-                    android:pathPrefix="/coronainfo/addVaccinationCard"
-                    android:scheme="https" />
-                <data
-                    android:host="jopaapi.web.app"
-                    android:pathPrefix="/coronainfo/addVaccinationCard"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
+        </receiver>
 
         <receiver
             android:name=".CoronaDataUpdateService"

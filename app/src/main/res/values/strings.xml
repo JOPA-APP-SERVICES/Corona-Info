@@ -16,7 +16,7 @@
     <string name="about">About</string>
     <string name="licences">Open source licences</string>
     <string name="alertDialogCancel">Cancel</string>
-    <string name="aboutText">QR-Code Scanner © by JOPA APP-SERVICES, 2022.</string>
+    <string name="aboutText">Corona Info © by JOPA APP-SERVICES, 2022.</string>
     <string name="noCoronaApp">You do not have a Corona app such as CovPass, Corona-Warn, luca, GreenPass EU or AntiCovid installed.</string>
     <string name="vaccinationCardSetupNotificationTitle">Vaccination &amp; Recovery card widget setup</string>
     <string name="vaccinationCardSetupNotificationBodyStart">Please click here to set up your vaccination and recovery card widget.</string>
@@ -26,4 +26,7 @@
     <string name="vaccinationCardSetupNotificationBodySuccessShort">The setup …</string>
     <string name="openSource">Open source</string>
     <string name="openSourceText">This app is open source. The source code is available \u003Ca href=\"https://github.com/JOPA-APP-SERVICES/Corona-Info\"\u003Ehere\u003C/a\u003E.</string>
+    <string name="introTitle">Corona Info…</string>
+    <string name="introText">…is an app with which you can always call up the current Corona figures for the whole of Germany via widgets, even without a permanent internet connection, and position vaccination &amp; recovery cards directly on your home screen via a widget.</string>
+    <string name="introText2">…needs your permission to access the camera to add vaccination &amp; recovery card widgets.</string>
 </resources>

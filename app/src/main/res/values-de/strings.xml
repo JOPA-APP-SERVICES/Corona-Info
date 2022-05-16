@@ -17,7 +17,7 @@
     <string name="about">Über uns</string>
     <string name="licences">Open-Source Lizenzen</string>
     <string name="alertDialogCancel">Abbrechen</string>
-    <string name="aboutText">QR-Code Scanner © by JOPA APP-SERVICES, 2022.</string>
+    <string name="aboutText">Corona Info © by JOPA APP-SERVICES, 2022.</string>
     <string name="noCoronaApp">Sie haben keine Corona App wie CovPass, Corona-Warn, luca, GreenPass EU oder AntiCovid installiert.</string>
     <string name="vaccinationCardSetupNotificationTitle">" Impf-&amp; Genesenenkartenwidget einrichten"</string>
     <string name="vaccinationCardSetupNotificationBodyStart">Bitte klicken sie hier, um ihr Impf-&amp; Genesenenkartenwidget einzurichten</string>
@@ -27,4 +27,7 @@
     <string name="vaccinationCardSetupNotificationBodySuccessShort">Die Einrichtung …</string>
     <string name="openSource">Open Source</string>
     <string name="openSourceText">Diese App ist Open Source. Der Quellcode ist \u003Ca href=\"https://github.com/JOPA-APP-SERVICES/Corona-Info\"\u003Ehier\u003C/a\u003E verfügbar.</string>
+    <string name="introTitle">Corona Info…</string>
+    <string name="introText">…ist eine App, mit der Sie immer die aktuellen Corona Zahlen für ganz Deutschland auch ohne permanente Internetverbindung über Widgets abrufen können sowie Impf-&amp; Genesenenkarten per Widget direkt auf ihrem Startbildschirm positionieren können.</string>
+    <string name="introText2">…braucht ihre Erlaubnis, auf die Kamera zuzugreifen, um Impf- &amp; Genesenenkartenwidgets hinzuzufügen.</string>
 </resources>

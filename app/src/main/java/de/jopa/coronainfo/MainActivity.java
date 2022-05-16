@@ -1,14 +1,9 @@
 package de.jopa.coronainfo;
 
-import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import android.app.NotificationManager;
-import android.appwidget.AppWidgetManager;
-import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -22,18 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import com.github.kaiwinter.androidremotenotifications.RemoteNotifications;
 import com.github.kaiwinter.androidremotenotifications.model.UpdatePolicy;
 import org.json.JSONException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,55 +32,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE}, 1);
+        SharedPreferences prefs = this.getSharedPreferences("de.jopa.coronainfo.CoronaData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
 
-        try {
-            if ("/coronainfo/addVaccinationCard".equals(getIntent().getData().getPath())) {
-                int appWidgetId = Integer.parseInt(getIntent().getData().getQueryParameter("appWidgetId"));
-                String name = getIntent().getData().getQueryParameter("name");
-
-                File dir = new File(Environment.getExternalStorageDirectory() + "/.CoronaInfo/VaccinationCards/");
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-
-                File src = new File(Environment.getExternalStorageDirectory() + "/Download", name + ".png");
-                File dst = new File("storage/emulated/0/.CoronaInfo/VaccinationCards", appWidgetId + ".png");
-
-                FileInputStream inStream;
-                try {
-                    inStream = new FileInputStream(src);
-                    FileOutputStream outStream = new FileOutputStream(dst);
-                    FileChannel inChannel = inStream.getChannel();
-                    FileChannel outChannel = outStream.getChannel();
-                    inChannel.transferTo(0, inChannel.size(), outChannel);
-                    inStream.close();
-                    outStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                src.delete();
-
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-                VaccinationCardWidget.updateAppWidget(this, appWidgetManager, appWidgetId);
-
-                NotificationManager notificationManager1 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager1.cancel(1);
-
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "vacCardSetup")
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
-                        .setContentTitle(getString(R.string.vaccinationCardSetupNotificationTitle))
-                        .setContentText(getString(R.string.vaccinationCardSetupNotificationBodySuccessShort))
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.vaccinationCardSetupNotificationBodySuccess)))
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-                notificationManager.notify(2, builder.build());
-            }
-        } catch (NullPointerException e) {
-            //pass
+        if (prefs.getBoolean("FirstTime", true)) {
+            editor.putBoolean("FirstTime", false).apply();
+            Intent intent = new Intent(this, Intro.class);
+            startActivity(intent);
         }
 
         try {

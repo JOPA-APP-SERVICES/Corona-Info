@@ -9,7 +9,6 @@ public class CoronaDataUpdateOnBoot extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         AlarmHandler alarmHandler = new AlarmHandler(context);
-        alarmHandler.cancelAlarmManager();
         alarmHandler.setAlarmManager();
     }
 }
