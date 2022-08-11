@@ -1,6 +1,10 @@
 # Corona-Info...
 ...ist eine App, mit der Sie immer die aktuellen Corona Zahlen für ganz Deutschland auch ohne permanente Internetverbindung über Widgets abrufen können sowie [Impf-& Genesenenkarten](https://jopaapps.web.app/apps/impfkartengenerator.html) per Widget direkt auf ihrem Startbildschirm positionieren können.
 
+## TODO:
+- Corona Daten regelmäßig laden
+- Material Design
+
 
 ## Bibliotheken:
 
