@@ -5,7 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-permission android:name="android.permission.CAMERA"/>
 
@@ -32,6 +33,10 @@
         <activity
             android:name=".Intro"
             android:exported="false" />
+
+        <activity
+            android:name="com.mikepenz.aboutlibraries.ui.LibsActivity"
+            android:theme="@style/Theme.CoronaInfo.AboutLibraries" />
 
 
         <receiver
@@ -80,12 +85,13 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
 
         <receiver
-            android:name=".CoronaDataUpdateService"
-            android:enabled="true" />
+            android:name=".CoronaDataUpdateReceiver"
+            android:process=":remote"  />
     </application>
 
 </manifest>

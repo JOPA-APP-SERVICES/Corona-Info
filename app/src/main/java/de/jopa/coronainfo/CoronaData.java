@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.StrictMode;
 import androidx.annotation.NonNull;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -115,7 +117,7 @@ public class CoronaData{
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String resp = response.body().string();
+                    String resp = Objects.requireNonNull(response.body()).string();
                     JSONObject data;
                     try {
                         data = new JSONObject(resp);
@@ -208,7 +210,10 @@ public class CoronaData{
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        return new Gson().fromJson(data.toString(), HashMap.class).keySet();
+
+        Type type = new TypeToken<HashMap<String, Integer>>(){}.getType();
+
+        return ((HashMap<String, Integer>) new Gson().fromJson(data.toString(), type)).keySet();
     }
 
     public String getString(int id) {

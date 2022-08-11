@@ -70,6 +70,7 @@ public class VaccinationCardWidget extends AppWidgetProvider {
         ArrayList<List<String>> apps = new ArrayList<>();
         apps.add(Arrays.asList("de.rki.covpass.app", "de.rki.covpass.app.main.MainActivity"));
         apps.add(Arrays.asList("de.rki.coronawarnapp", "de.rki.coronawarnapp.ui.main.MainActivity"));
+        apps.add(Arrays.asList("de.corona.tracing", "de.rki.coronawarnapp.ui.main.MainActivity"));
         apps.add(Arrays.asList("de.culture4life.luca", "de.culture4life.luca.ui.MainActivity"));
         apps.add(Arrays.asList("eu.greenpassapp.greenpassrk", "eu.greenpassapp.greenpassrk.MainActivity"));
         apps.add(Arrays.asList("fr.gouv.android.stopcovid", "fr.gouv.android.stopcovid.MainActivity"));

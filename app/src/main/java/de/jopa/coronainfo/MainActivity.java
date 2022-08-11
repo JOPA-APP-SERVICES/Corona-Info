@@ -1,5 +1,8 @@
 package de.jopa.coronainfo;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -17,13 +20,11 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import com.github.kaiwinter.androidremotenotifications.RemoteNotifications;
-import com.github.kaiwinter.androidremotenotifications.model.UpdatePolicy;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 import org.json.JSONException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -41,18 +42,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        try {
-            RemoteNotifications.start(MainActivity.this, new URL("https://jopaapi.web.app/coronainfo/notifications.json"), UpdatePolicy.NOW);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
         CoronaData cD = new CoronaData(MainActivity.this);
         ArrayList<String> admUnitNames = new ArrayList<>(cD.getAdmUnitNames());
 
-        AlarmHandler alarmHandler = new AlarmHandler(MainActivity.this);
-        alarmHandler.cancelAlarmManager();
-        alarmHandler.setAlarmManager();
+        //AlarmHandler alarmHandler = new AlarmHandler(MainActivity.this);
+        //alarmHandler.cancelAlarmManager();
+        //alarmHandler.setAlarmManager();
 
         TextView textViewName = findViewById(R.id.textViewName);
         TextView textViewInfos = findViewById(R.id.textViewInfos);
@@ -125,16 +120,16 @@ public class MainActivity extends AppCompatActivity {
             dialog = builder.create();
             dialog.show();
 
-            ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+            ((TextView) Objects.requireNonNull(dialog.findViewById(android.R.id.message))).setMovementMethod(LinkMovementMethod.getInstance());
 
             return true;
         } else if (id == R.id.licences) {
-            builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle(R.string.app_name).setMessage("OkHttp3 - Square\n" +
-                    "org.json - JSON\ngson - Google\nandroid-remote-notifications - kaiwinter");
-            builder.setNegativeButton(R.string.alertDialogCancel, null);
-            dialog = builder.create();
-            dialog.show();
+            new LibsBuilder()
+                    .withLicenseShown(true)
+                    .withVersionShown(true)
+                    .withAboutIconShown(true)
+                    .withActivityTitle(getString(R.string.licences))
+                    .start(MainActivity.this);
             return true;
         } else {
             return super.onOptionsItemSelected(item);

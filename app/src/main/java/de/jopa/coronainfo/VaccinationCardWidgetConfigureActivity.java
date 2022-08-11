@@ -1,6 +1,7 @@
 package de.jopa.coronainfo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -36,6 +37,7 @@ public class VaccinationCardWidgetConfigureActivity extends Activity {
         super();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void onCreate(Bundle icicle) {
